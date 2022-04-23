@@ -1,6 +1,13 @@
 
 export default function start() {
     return (
-        <h1>This is the start Page</h1>
+        <div className="startPage">
+            <div className="startPage-el">
+                <h1>Quizzical</h1>
+                <p>A fun quiz game</p>
+                <button>Start quiz</button>
+            </div>
+        </div>
+        
     )
 }

@@ -1,4 +1,75 @@
-body {
-    margin: 0%;
- 
+/* General body */
+* {
+    margin: 0;
+    padding: 0;
 }
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #F5F7FB;
+}
+
+.blob-5 {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    right: 0%;
+}
+
+.blob-4 {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    bottom: 0%;
+}
+
+/* Start Page */
+.startPage {
+  /* background: #FFFF00; */
+    width: 500px;
+    height: 500px;
+
+    position: absolute;
+    top:70;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+}
+
+.startPage-el {
+    text-align: center;
+}
+
+.startPage-el > h1 {
+    font-family: 'karla';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 37px;
+    color: #293264;
+}
+
+.startPage-el > p {
+    font-family: 'Inter';
+    padding-top: 20px;
+}
+
+.startPage-el > button {
+    margin-top: 40px;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 10px;
+    background-color: #4D5B9E;
+    color: white;
+    font-family: 'Inter';
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.startPage-el > button:hover {
+    transform: scale(1.1);
+}
+
