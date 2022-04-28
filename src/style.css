@@ -12,26 +12,28 @@ body {
 
 .blob-5 {
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 18%;
+    height: 30%;
+/*    width: 200px;
+    height: 200px; */
     right: 0%;
 }
 
 .blob-4 {
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 15%;
+    height: 22%;
     bottom: 0%;
 }
 
 /* Start Page */
 .startPage {
-  /* background: #FFFF00; */
+/*    background: #FFFF00; */
     width: 500px;
-    height: 500px;
+    height: 100px;
 
     position: absolute;
-    top:70;
+    top: 0;
     bottom: 0;
     left: 0;
     right: 0;
@@ -73,3 +75,53 @@ body {
     transform: scale(1.1);
 }
 
+/* QuestionPage */
+hr {
+    margin-top: 30px;
+    color: red;
+}
+
+.question-page {
+/*    background: #FFFF00; */
+    position: absolute;
+    width: 85%;
+    margin-top: 30px;
+    text-align: center; 
+    margin: 1.5% 8%;
+    left: 0;
+    right: 0;
+    
+}
+
+.question-page > h1 {
+    font-family: 'Karla';
+    font-size: 150%;
+    color: #293264;
+    font-weight: bolder;
+    font-style: normal;
+    text-align: left;
+}
+
+.question-page > ul {
+    display: flex;
+    margin-top: 30px;
+    list-style-type: none;
+
+}
+
+.question-page > ul > li {
+    margin-right: 20px;
+    border-style: groove ;
+    border-radius: 20px;
+    border: 0.794239px solid #4D5B9E;
+    padding: 1% 5%;
+    cursor: pointer;
+    font-family: 'Inter';
+    font-weight: 500;
+    color: #293264;
+
+}
+
+.question-page > ul > li:hover {
+    background-color: #D6DBF5;
+}
