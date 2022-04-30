@@ -12,17 +12,17 @@ body {
 
 .blob-5 {
     position: absolute;
-    width: 18%;
-    height: 30%;
+    width: 15%;
+    height: 25%;
 /*    width: 200px;
     height: 200px; */
     right: 0%;
 }
 
 .blob-4 {
-    position: absolute;
-    width: 15%;
-    height: 22%;
+    position: fixed;
+    width: 11%;
+    height: 18%;
     bottom: 0%;
 }
 
@@ -93,7 +93,7 @@ hr {
     
 }
 
-.question-page > h1 {
+.questionpage-h1{
     font-family: 'Karla';
     font-size: 150%;
     color: #293264;
@@ -102,14 +102,14 @@ hr {
     text-align: left;
 }
 
-.question-page > ul {
+.answer-list {
     display: flex;
     margin-top: 30px;
     list-style-type: none;
 
 }
 
-.question-page > ul > li {
+.answer-list > li {
     margin-right: 20px;
     border-style: groove ;
     border-radius: 20px;
@@ -122,6 +122,6 @@ hr {
 
 }
 
-.question-page > ul > li:hover {
+.answer-list > li:hover {
     background-color: #D6DBF5;
 }
