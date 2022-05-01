@@ -15,9 +15,9 @@ export default function renderQuestions (props) {
                     {item.incorrect_answers.map(answerItem => 
                         <li 
                             key={answerItem.id}
-                            onClick={(id)=> props.Answer(answerItem.id)}
+                            onClick={(id)=> props.Answer(item.id, answerItem.id)}
                             id={answerItem.id}
-                            style={item.isClicked ? {backgroundColor: '#D6DBF5'} : {backgroundColoe: '#293264'} }> 
+                            style={answerItem.isClicked ? {backgroundColor: '#D6DBF5'} : {backgroundColoe: '#293264'} }> 
                             {answerItem.answer}
                         </li>)}
                     {/*

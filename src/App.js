@@ -28,19 +28,38 @@ export default function App () {
 
     }
     
+    // function to idenify which answer was selected from the 'incorrect_answers' array
+    // Has 2 parameters questionId and answerId
+    // questionId is to check which specific question object was clicked
+    // answerID is used to get the specifc 'incorrect_answer' array that was se inside the question object slecected
+    function selectAnswer(questionId, answerId) {
+        console.log(`${questionId} and ${answerId}`)
 
-    function selectAnswer(id) {
-//        console.log(id)
-        return (
-            Questions.map(item => {
-                console.log(item.incorrect_answers)
-            }))
-            //setQuestions(prevState => prevState.map(item => {
-            //    return item.incorrect_answers.id === id ? {...item, [incorrect_answers.isClicked] : !item.incorrect_answers.isClicked} : item }))
-            //) 
+        let newState = []
+        
+        let mapQuestion = Questions.map(questionItem => {
+            let mapAnswer = questionItem.incorrect_answers.map(answerItem => {
+                return answerItem.id === answerId ? {...answerItem, isClicked: !answerItem.isClicked} : answerItem
+            })
+
+            if ( questionItem.id === questionId ) {
+                mapAnswer.map(ansItem => ansItem.id != answerId ? ansItem.isClicked = false : ansItem)
+                return {...questionItem, incorrect_answers : mapAnswer}
+            } else {
+                return questionItem 
+            }
+            /*
+            return (questionItem.id === questionId ?
+                ({...questionItem, incorrect_answers : mapAnswer})
+                : questionItem ) */
+        })
+
+        setQuestions(mapQuestion)
+        console.log(mapQuestion)        
+            
     }
     
-    console.log(Test)
+    //console.log(Test)
 
     return (
         <div>
