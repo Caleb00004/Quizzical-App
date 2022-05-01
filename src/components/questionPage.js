@@ -37,6 +37,7 @@ export default function renderQuestions (props) {
     return (
         <div className="question-page">
             {mapQuizzical}
+            <button className="check-answer" onClick={props.check}>check Answers</button>
         </div>
         /*
         <div className="question-page">

@@ -55,17 +55,19 @@ export default function App () {
         })
 
         setQuestions(mapQuestion)
-        console.log(mapQuestion)        
+//        console.log(mapQuestion)
             
     }
     
-    //console.log(Test)
+    function checkAnswer () {
+        console.log("answerbtn clicked")
+    }
 
     return (
         <div>
             <img className="blob-5" src={'./images/blob 5.png'}></img>
             <img className="blob-4" src={'./images/blob 4.png'}></img>
-            {Questions.length < 1 ? <StartPage Data={requestData}/> : <QuestionPage quizzical={Questions} Answer={selectAnswer}/>}
+            {Questions.length < 1 ? <StartPage Data={requestData}/> : <QuestionPage quizzical={Questions} Answer={selectAnswer} check={checkAnswer}/>}
             
         </div>
     )
