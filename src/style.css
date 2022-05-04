@@ -7,6 +7,7 @@
 body {
     height: 100%;
     width: 100%;
+/*    background-color: #f5fbf5; */
     background-color: #F5F7FB;
 }
 
@@ -126,7 +127,7 @@ hr {
     background-color: #D6DBF5;
 }
 
-.check-answer {
+.question-page > button {
     margin-top: 40px;
     margin-bottom: 40px;
     padding: 10px 40px;
@@ -137,4 +138,13 @@ hr {
     font-family: 'Inter';
     font-size: 15px;
     cursor: pointer;       
+}
+
+/* dispaly correct answer */
+span {
+    color: #293264;
+    font-family: 'Inter';
+    padding-right: 30px;
+    font-size: 120%;
+
 }

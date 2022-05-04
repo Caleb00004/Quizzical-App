@@ -3,16 +3,27 @@ import StartPage from './components/startPage';
 import QuestionPage from './components/questionPage';
 import Test  from './testData';
 import {nanoid} from 'nanoid'
-
 //import images from '../images'
+
 
 export default function App () {
 
-    const [Questions, setQuestions] = React.useState([])
+    const [Questions, setQuestions] = React.useState([]) // stores quizzical data
+    const [displayAnswers, setDisplayAnswers] = React.useState(false) // primary aim to dynamically render different styles in questionPage component
+    const [correctAnswers, setcorrectAnswers] = React.useState([]) // stores array of correct answers gotten/selected by the user
 
-    // function to sey the sate to the question data gotten
+    // function to set the sate to the question data gotten
     function requestData () {
-             
+        if (displayAnswers) {
+            setDisplayAnswers(false)
+            setQuestions(Test)
+        }
+        
+        // generate random index to randomly add correct_answer to incorrect_answer array
+        function generateRandomIndex () {
+            return Math.floor(Math.random() * 4)
+        }
+
         for (let i = 0; i < Test.length; i++) {
             let array = Test[i].incorrect_answers
                 const mapping = array.map(item => {
@@ -20,21 +31,24 @@ export default function App () {
 
             }) 
             Test[i].incorrect_answers = mapping
-            Test[i].incorrect_answers.push({id: nanoid(), answer: Test[i].correct_answer, isClicked:false})
+            Test[i].incorrect_answers.splice(generateRandomIndex(), 0, {id: nanoid(), answer: Test[i].correct_answer, isClicked:false})
             Test[i].id = nanoid()
         }
-        
+
+//        console.log(Test)
+//        setDisplayAnswers(false)
         setQuestions(Test)
 
     }
     
     // function to idenify which answer was selected from the 'incorrect_answers' array
     // Has 2 parameters questionId and answerId
-    // questionId is to check which specific question object was clicked
-    // answerID is used to get the specifc 'incorrect_answer' array that was se inside the question object slecected
+    // questionId = used to check which specific question object was clicked
+    // answerID = used to get the specific answer object inside the 'incorrect_answer' array that was slecected
+    // it is passed down to the "QUESTIONPAGE" component and called as an onClick event hander in the COMPONENT.
+    // When called, gets the specific question object that called it using the QUESTIONID
+    // Then using the ANSWERID,it maps through the incorrect_answers array and flips isClicked value of the specific answer object inside 'incorrect_answers' array to True
     function selectAnswer(questionId, answerId) {
-        console.log(`${questionId} and ${answerId}`)
-
         let newState = []
         
         let mapQuestion = Questions.map(questionItem => {
@@ -48,27 +62,40 @@ export default function App () {
             } else {
                 return questionItem 
             }
-            /*
-            return (questionItem.id === questionId ?
-                ({...questionItem, incorrect_answers : mapAnswer})
-                : questionItem ) */
         })
 
         setQuestions(mapQuestion)
-//        console.log(mapQuestion)
+        //console.log(mapQuestion)
             
     }
-    
+
+    // function to check how many answers was gotten right by the user
     function checkAnswer () {
+        let selectedAnswer = []
+
+        Questions.map(queItem => {
+            queItem.incorrect_answers.map(ansItem => {
+                if (ansItem.isClicked && ansItem.answer === queItem.correct_answer) {
+                    selectedAnswer.push(ansItem.answer)
+                    setcorrectAnswers(selectedAnswer)
+                }
+//                ansItem.isClicked ? ansItem.answerconsole.log(ansItem.answer)
+            })
+        })
+        setDisplayAnswers(true)
         console.log("answerbtn clicked")
+    //    console.log(displayAnswers)
     }
 
+//    console.log(displayAnswers)
     return (
         <div>
             <img className="blob-5" src={'./images/blob 5.png'}></img>
             <img className="blob-4" src={'./images/blob 4.png'}></img>
-            {Questions.length < 1 ? <StartPage Data={requestData}/> : <QuestionPage quizzical={Questions} Answer={selectAnswer} check={checkAnswer}/>}
-            
+            {Questions.length < 1 ?
+                <StartPage Data={requestData}/> :
+                <QuestionPage quizzical={Questions} select={selectAnswer} check={checkAnswer} displayAns={displayAnswers} correct={correctAnswers} newGame={requestData} />}
+
         </div>
     )
 }
