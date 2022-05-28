@@ -57,8 +57,8 @@ export default function renderQuestions (props) {
         <div className="question-page">
             {mapQuizzical}
             {props.displayAns && <span>You scored {props.correct.length}/5 correct answers </span>}
-            {!props.displayAns ? <button onClick={props.check}>check Answers</button> : <button onClick={props.newGame}>New Game</button> }            
-            
+            {!props.displayAns ? <button onClick={props.check}>check Answers</button> : <button onClick={props.newGame}>New Game</button> }
+
         </div>
 
     )
