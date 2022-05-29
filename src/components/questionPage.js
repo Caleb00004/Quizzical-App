@@ -4,8 +4,6 @@ import React from "react"
 export default function renderQuestions (props) {
     const question = props.quizzical
 
-    console.log(props.displayAns)
-
     // function to dynamic generate style for the answer items
     // if renders different styles based on props.dispalyAns
     function styleGenerator (type, condition, condition2 = false ) {

@@ -3,7 +3,6 @@ import StartPage from './components/startPage';
 import QuestionPage from './components/questionPage';
 //import Test  from './testData';
 import {nanoid} from 'nanoid'
-//import images from '../images'
 
 
 export default function App () {
@@ -11,21 +10,31 @@ export default function App () {
     const [Questions, setQuestions] = React.useState([]) // stores quizzical data
     const [displayAnswers, setDisplayAnswers] = React.useState(false) // primary aim to dynamically render different styles in questionPage component
     const [correctAnswers, setcorrectAnswers] = React.useState([]) // stores array of correct answers gotten/selected by the user
-    const [rawData, setRawData] = React.useState([])
+    const [data, setData] = React.useState([]) // stores all the data gotten from api after it has 
+    const [waitingMessage, setWaitingMessage] = React.useState("") //stores message to be displayed to user while quiz data is being fetched from api
+    const [displayWaitingMessage, setDisplayWaitingMessage] = React.useState(false) // tells react to render display message 
+
+    // useEffect hook to dynamically display message to DOM when data is being fetched from api
+    React.useEffect(()=> {
+        if (displayWaitingMessage) {
+            data.length <= 0 ? setWaitingMessage('fetching Data please hold...') : setWaitingMessage("proceed...")
+        }
+    },[displayWaitingMessage, data])
+    
     
     // function to convert html special characters to normal plain text.
     function convertToPlain(html){
-        // Create a new div element
-        let tempDivElement = document.createElement("div");
-        // Set the HTML content with the given value
-        tempDivElement.innerHTML = html;
+        let tempDivElement = document.createElement("div"); // Create a new div element
+        tempDivElement.innerHTML = html; // Set the HTML content with the given value
         // Retrieve the text property of the element 
         return tempDivElement.textContent || tempDivElement.innerText || "";
     }
 
     // function to process api data and store it in RAWDATA State
+    // it inserts an id to every single data object,
+    // merges the correct_answer to incorrect_answer array and adds the isClicked property to every object in the array
     function processData(apiData) {
-//        console.log("called")
+        console.log("called")
         // generate random index to randomly add correct_answer to incorrect_answer array
         function generateRandomIndex () {
             return Math.floor(Math.random() * 4)
@@ -43,7 +52,7 @@ export default function App () {
             apiData[i].id = nanoid()
         }
         
-        setRawData(apiData)
+        setData(apiData)
     }
 
     // fetching quiz Data from api
@@ -56,20 +65,18 @@ export default function App () {
                 }
             );
             let data = await response.json(); // Extracting data as a JSON Object from the response
-            console.log("comes second")        
-//            console.log(data.results)
-//            setRawData(data)
-            processData(data.results)
+            console.log("comes second")
+            processData(data.results) // calls processData function and passes raw data fetched from api as parameter
         }
         getResponse()
     },[])
 
     console.log("comes first")
-
-
+ 
     // function to select which (5) questions will be displayed to the DOM and update QUESTIONS state. 
     function requestData () {
-        if (rawData.length > 0 ) {
+        setDisplayWaitingMessage(true)
+        if (data.length > 0 ) {
             let i = 0
             let array=[]
 
@@ -78,9 +85,8 @@ export default function App () {
                 i++
             }
 
-//            Questions.map(item => item.incorrect_answers.map(incorrectItem => incorrectItem.isClicked = false))
             // function to generate non repeating radom numbers
-            // nunbers generted will be used to select which questons from the full queston array will be dsipalyed 
+            // nunbers generted will be used to select which 5 questons from the full queston array will be dsipalyed 
             function generateRandomIndex () {
                 let random = Math.floor(Math.random() * 49)
 
@@ -94,17 +100,15 @@ export default function App () {
                 } else {
                     return generateRandomIndex()
                 }
-    //            return Math.floor(Math.random() * 49)
             }
             
             let questionArray = []// stores the 5 questions randomly selected using for loop to be displayed
             for (let i = 0; i < 5; i++) {
-                questionArray.push(rawData[generateRandomIndex()])
+                questionArray.push(data[generateRandomIndex()])
             }
 
             if (displayAnswers) {
                 setDisplayAnswers(false)
-                //console.log(Test)
                 setQuestions(questionArray)
             } else {
                 setQuestions(questionArray)
@@ -112,6 +116,7 @@ export default function App () {
             //setDisplayAnswers(false)
         } else {
             return false
+
         }
 
         
@@ -142,15 +147,11 @@ export default function App () {
         })
 
         setQuestions(mapQuestion)
-        //console.log(Questions)
-        //console.log(mapQuestion)
-            
     }
 
     // function to check how many answers was gotten right by the user
     function checkAnswer () {
         let selectedAnswer = []
-//        selectedAnswer.length = 0
 
         Questions.map(queItem => {
             queItem.incorrect_answers.map(ansItem => {
@@ -170,7 +171,10 @@ export default function App () {
             <img className="blob-5" src={'./images/blob 5.png'}></img>
             <img className="blob-4" src={'./images/blob 4.png'}></img>
             {Questions.length < 1 ?
-                <StartPage Data={requestData}/> :
+                <div>
+                <StartPage Data={requestData}/> 
+                <h1 className='waiting-message'>{waitingMessage}</h1>
+                </div>:
                 <QuestionPage quizzical={Questions} select={selectAnswer} check={checkAnswer} displayAns={displayAnswers} correct={correctAnswers} newGame={requestData} />}
 
         </div>

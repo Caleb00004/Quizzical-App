@@ -27,6 +27,14 @@ body {
     bottom: 0%;
 }
 
+.waiting-message {
+    font-family: 'Inter';
+    font-size: 130%;
+    color: #d32e2e;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
 /* Start Page */
 .startPage {
 /*    background: #FFFF00; */
@@ -161,6 +169,10 @@ span {
     .blob-4 {
         width: 18%;
         height: 14%;
+    }
+
+    .waiting-message {
+        font-size: 15px;
     }
 
     /* Start Page*/
