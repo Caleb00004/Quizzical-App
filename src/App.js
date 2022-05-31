@@ -132,15 +132,13 @@ export default function App () {
     // When called, gets the specific question object that called it using the QUESTIONID
     // Then using the ANSWERID,it maps through the incorrect_answers array and flips isClicked value of the specific answer object inside 'incorrect_answers' array to True
     function selectAnswer(questionId, answerId) {
-        let newState = []
-        
         let mapQuestion = Questions.map(questionItem => {
             let mapAnswer = questionItem.incorrect_answers.map(answerItem => {
                 return answerItem.id === answerId ? {...answerItem, isClicked: !answerItem.isClicked} : answerItem
             })
 
             if ( questionItem.id === questionId ) {
-                mapAnswer.map(ansItem => ansItem.id != answerId ? ansItem.isClicked = false : ansItem)
+                mapAnswer.map(ansItem => ansItem.id !== answerId ? ansItem.isClicked = false : ansItem)
                 return {...questionItem, incorrect_answers : mapAnswer}
             } else {
                 return questionItem 
@@ -169,8 +167,8 @@ export default function App () {
 
     return (
         <div>
-            <img className="blob-5" src={'./images/blob 5.png'}></img>
-            <img className="blob-4" src={'./images/blob 4.png'}></img>
+            <img className="blob-5" alt="blob 5" src={'./images/blob 5.png'}></img>
+            <img className="blob-4" alt="blob 4" src={'./images/blob 4.png'}></img>
             {Questions.length < 1 ?
                 <div>
                 <StartPage Data={requestData}/> 
