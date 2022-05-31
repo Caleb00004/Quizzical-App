@@ -59,7 +59,8 @@ export default function App () {
     React.useEffect(()=> {
         async function getResponse() {
             const response = await fetch(
-                'https://opentdb.com/api.php?amount=50&category=11&difficulty=easy&type=multiple',
+                'https://opentdb.com/api.php?amount=50&difficulty=easy&type=multiple',
+//                'https://opentdb.com/api.php?amount=50&category=11&difficulty=easy&type=multiple',
                 {
                     method: 'GET',
                 }
