@@ -4,8 +4,8 @@ import React from "react"
 export default function renderQuestions (props) {
     const question = props.quizzical
 
-    // function to dynamic generate style for the answer items
-    // if renders different styles based on props.dispalyAns
+    // function to dynamically generate style for the answer items
+    // it renders different styles based on props.dispalyAns
     function styleGenerator (type, condition, condition2 = false ) {
         if (type === 'selectingAnswer' ) {
             if (condition) { 
@@ -40,7 +40,7 @@ export default function renderQuestions (props) {
                             id={answerItem.id}
                             style = { !props.displayAns ?
                                     styleGenerator('selectingAnswer', answerItem.isClicked) :
-                                    styleGenerator('displayingAnswer', answerItem.answer === item.correct_answer, answerItem.isClicked )}
+                                    styleGenerator('displayingAnswer', answerItem.answer === item.correct_answer, answerItem.isClicked)}
                         > 
                             {answerItem.answer}
                         </li>)}                    

@@ -7,17 +7,20 @@ import {nanoid} from 'nanoid'
 
 export default function App () {
 
-    const [Questions, setQuestions] = React.useState([]) // stores quizzical data
+    const [Questions, setQuestions] = React.useState([]) // stores the processed quizzical/question data
     const [displayAnswers, setDisplayAnswers] = React.useState(false) // primary aim to dynamically render different styles in questionPage component
     const [correctAnswers, setcorrectAnswers] = React.useState([]) // stores array of correct answers gotten/selected by the user
-    const [data, setData] = React.useState([]) // stores all the data gotten from api after it has 
+    const [data, setData] = React.useState([]) // stores all the data gotten from api after it has being processed
     const [waitingMessage, setWaitingMessage] = React.useState("") //stores message to be displayed to user while quiz data is being fetched from api
-    const [displayWaitingMessage, setDisplayWaitingMessage] = React.useState(false) // tells react to render display message 
+    const [displayWaitingMessage, setDisplayWaitingMessage] = React.useState(false) // Tells react when to render display message 
+    const [errorMesssage] = React.useState("Error try refreshing the page") // message to be displayed if error occurs
+    const [displayErrorMessage, setDisplayErrorMessage] = React.useState(false) // Tells when to render error message i.e if True
 
-    // useEffect hook to dynamically display message to DOM when data is being fetched from api
+
+    // useEffect hook to dynamically render message to DOM while data is being fetched from api
     React.useEffect(()=> {
         if (displayWaitingMessage) {
-            data.length <= 0 ? setWaitingMessage('fetching Data please hold...') : setWaitingMessage("proceed...")
+            data.length <= 0 ? setWaitingMessage('fetching Data please hold') : setWaitingMessage("proceed")
         }
     },[displayWaitingMessage, data])
     
@@ -44,6 +47,7 @@ export default function App () {
             apiData[i].question = convertToPlain(apiData[i].question) //to remove html special characters from the question gotten from api
             let array = apiData[i].incorrect_answers
                 const mapping = array.map(item => {
+                item = convertToPlain(item)
                 return ({id: nanoid(), answer: item, isClicked : false })
 
             }) 
@@ -60,15 +64,23 @@ export default function App () {
         async function getResponse() {
             const response = await fetch(
                 'https://opentdb.com/api.php?amount=50&difficulty=easy&type=multiple',
-//                'https://opentdb.com/api.php?amount=50&category=11&difficulty=easy&type=multiple',
                 {
                     method: 'GET',
                 }
             );
+            if (!response.ok) {
+                const message = `an error occured`
+                throw new Error(message)
+            }
             let data = await response.json(); // Extracting data as a JSON Object from the response
             console.log("comes second")
-            processData(data.results) // calls processData function and passes raw data fetched from api as parameter
+            processData(data.results)// calls processData function and passes raw data fetched from api as parameter
         }
+        getResponse().catch(error => { // To handle errors in fecthing data
+            setDisplayErrorMessage(true) // tells react to render error message to DOM
+            setDisplayWaitingMessage(false) // tells react to stop rendering waiting message to DOM
+        })
+
         getResponse()
     },[])
 
@@ -76,8 +88,8 @@ export default function App () {
  
     // function to select which (5) questions will be displayed to the DOM and update QUESTIONS state. 
     function requestData () {
-        setDisplayWaitingMessage(true)
-        if (data.length > 0 ) {
+        !displayErrorMessage && setDisplayWaitingMessage(true)
+        if (data.length > 0 ) { //To confirm that data has being fetched and saved in state [i.e to prevent error]
             let i = 0
             let array=[]
 
@@ -117,7 +129,6 @@ export default function App () {
             //setDisplayAnswers(false)
         } else {
             return false
-
         }
 
         
@@ -135,16 +146,16 @@ export default function App () {
         let mapQuestion = Questions.map(questionItem => {
             let mapAnswer = questionItem.incorrect_answers.map(answerItem => {
                 return answerItem.id === answerId ? {...answerItem, isClicked: !answerItem.isClicked} : answerItem
-            })
+            }) // maps through all incorrect_answers array and returns new incorrect_answer array with a flipped isClicked value.
 
-            if ( questionItem.id === questionId ) {
-                mapAnswer.map(ansItem => ansItem.id !== answerId ? ansItem.isClicked = false : ansItem)
-                return {...questionItem, incorrect_answers : mapAnswer}
+            if ( questionItem.id === questionId ) { //identifies the question object that an answer was selected for
+                mapAnswer.map(ansItem => ansItem.id !== answerId ? ansItem.isClicked = false : ansItem) //falsify all answers in question object that was not clicked & leaves only clicked answer as true
+                return {...questionItem, incorrect_answers : mapAnswer} //spreads through questionOBject and replaces the incorrect_answers with the updated one 
             } else {
                 return questionItem 
             }
         })
-
+        console.log(mapQuestion)
         setQuestions(mapQuestion)
     }
 
@@ -165,6 +176,22 @@ export default function App () {
         console.log("answerbtn clicked")
     }
 
+    
+    function displayMessage() {
+        if (displayWaitingMessage) {
+            if (!displayErrorMessage) {
+                return <h1 className='waiting-message'>{waitingMessage}</h1>
+            }
+        } else if (displayErrorMessage) {
+            if (!displayWaitingMessage) {
+                if (data.length <= 0) {
+                    return <h1 className='error-message'>{errorMesssage}</h1>
+                }
+            }
+        } else {
+            return false
+        }
+    }
     return (
         <div>
             <img className="blob-5" alt="blob 5" src={'./images/blob 5.png'}></img>
@@ -172,7 +199,8 @@ export default function App () {
             {Questions.length < 1 ?
                 <div>
                 <StartPage Data={requestData}/> 
-                <h1 className='waiting-message'>{waitingMessage}</h1>
+                {displayMessage()}
+            {/* {displayWaitingMessage && !displayErrorMessage ? (<h1 className='waiting-message'>{waitingMessage}</h1>) : (displayErrorMessage && !displayWaitingMessage ? <h1 className='error-message'>{errorMesssage}</h1> : false)} */}
                 </div>:
                 <QuestionPage quizzical={Questions} select={selectAnswer} check={checkAnswer} displayAns={displayAnswers} correct={correctAnswers} newGame={requestData} />}
 
