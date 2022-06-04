@@ -14,7 +14,7 @@ export default function App () {
     const [waitingMessage, setWaitingMessage] = React.useState("") //stores message to be displayed to user while quiz data is being fetched from api
     const [displayWaitingMessage, setDisplayWaitingMessage] = React.useState(false) // Tells react when to render display message 
     const [errorMesssage] = React.useState("Error try refreshing the page") // message to be displayed if error occurs
-    const [displayErrorMessage, setDisplayErrorMessage] = React.useState(false) // Tells when to render error message i.e if True
+    const [displayErrorMessage, setDisplayErrorMessage] = React.useState(false) // Tells react when to render error message
 
 
     // useEffect hook to dynamically render message to DOM while data is being fetched from api
@@ -176,7 +176,7 @@ export default function App () {
         console.log("answerbtn clicked")
     }
 
-    
+
     function displayMessage() {
         if (displayWaitingMessage) {
             if (!displayErrorMessage) {
@@ -192,6 +192,7 @@ export default function App () {
             return false
         }
     }
+
     return (
         <div>
             <img className="blob-5" alt="blob 5" src={'./images/blob 5.png'}></img>
@@ -200,7 +201,6 @@ export default function App () {
                 <div>
                 <StartPage Data={requestData}/> 
                 {displayMessage()}
-            {/* {displayWaitingMessage && !displayErrorMessage ? (<h1 className='waiting-message'>{waitingMessage}</h1>) : (displayErrorMessage && !displayWaitingMessage ? <h1 className='error-message'>{errorMesssage}</h1> : false)} */}
                 </div>:
                 <QuestionPage quizzical={Questions} select={selectAnswer} check={checkAnswer} displayAns={displayAnswers} correct={correctAnswers} newGame={requestData} />}
 
