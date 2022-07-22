@@ -1,4 +1,4 @@
-// {"response_code":0,"results": 
+// Sample of Data gotten from API 
 export default [
     {"category":"Entertainment: Video Games","type":"multiple","difficulty":"medium",
         "question":"In the game &quot;Undertale&quot;, who was Mettaton&#039;s creator?",
