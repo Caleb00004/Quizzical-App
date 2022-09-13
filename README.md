@@ -6,6 +6,6 @@ A fun quiz Application Built with React.
 ## About
   This app fetches 30 quiz questions based off category selected by users from the 'opentdb' api renders it to the DOM in groups of 5. Users have over 20 Categories of Questions to choose from with each category having unique Questions. The answers to the question can also be seen when users are done answering the questions.
   
- #Link to Finished Project
+## Link to Finished Project
  https://ornate-tulumba-3e1234.netlify.app/
 
