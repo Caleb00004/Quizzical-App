@@ -1,10 +1,10 @@
 # Table Of Contents
-* [Quizzical] (#Quizzical)
-* [Built with] (#Built-with)
-* [Screenshots] (#Screenshots)
-* [Project Status] (#Project-Status)
-* [Acknowledgements] (#Acknowledgements)
-* [Link to Project] (#Link-to-Project)
+* [Quizzical](#Quizzical)
+* [Built with](#Built-with)
+* [Screenshots](#Screenshots)
+* [Project Status](#Project-Status)
+* [Acknowledgements](#Acknowledgements)
+* [Link to Project](#Link-to-Project)
  
 # Quizzical
   This is a React application that fetches 30 quiz questions based off category selected by users from the 'opentdb' api and renders it to the DOM in groups of 5.
